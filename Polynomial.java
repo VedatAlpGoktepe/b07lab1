@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -21,8 +22,12 @@ public class Polynomial {
 		}
 	}
 	public Polynomial(File text) {
-		Scanner file = new Scanner(System.in);
-		String whole = file.nextLine();
+		Scanner file;
+		String whole = "";
+		try {
+			file = new Scanner(text);
+			whole = file.nextLine();
+		} catch (FileNotFoundException e) {}
 		
 		int size = 0;
 		for(int i = 0; i < whole.length(); i++) {
@@ -73,21 +78,28 @@ public class Polynomial {
 					slots--;
 					expo2[j]=-1;
 					coeff1[i] += coeff2[j];
+					if(coeff1[i] == 0) {
+						slots--;
+					}
 				}
 			}
 		}
+		
+		if(slots == 0) {return new Polynomial();}
 		
 		double[] totalCoeff = new double[slots];
 		int[] totalExpo = new int[slots];
 		int totalPos = 0;
 		
 		for(int pos1 = 0; pos1 < expo.length; pos1++) {
-			totalCoeff[totalPos] = coeff[pos1];
-			totalExpo[totalPos] = expo[pos1];
-			totalPos++;
+			if(coeff1[pos1] != 0) {
+				totalCoeff[totalPos] = coeff1[pos1];
+				totalExpo[totalPos] = expo[pos1];
+				totalPos++;
+			}
 		}
 		for(int pos2 = 0; pos2 < p2.expo.length; pos2++) {
-			if(expo[pos2] != -1) {
+			if(expo2[pos2] != -1) {
 				totalCoeff[totalPos] = p2.coeff[pos2];
 				totalExpo[totalPos] = p2.expo[pos2];
 				totalPos++;
@@ -135,15 +147,17 @@ public class Polynomial {
 	public void saveTofIle(String fileName) {
 	
 		String text = "";
-		text += Double.toString(coeff[0]);
-		if(expo[0] != 0) {text += "x" + Integer.toString(expo[0]);}
+		boolean first = false;
 		
-		for(int i = 1; i < coeff.length; i++) {
-			if(coeff[i] > 0) {
-				text += "+";
+		for(int i = 0; i < coeff.length; i++) {
+			if(coeff[i]!=0) {
+				if(first && coeff[i] >= 0) {
+					text += "+";
+				}
+				first = true;
+				text += Double.toString(coeff[i]);
+				if(expo[i] != 0) {text += "x" + Integer.toString(expo[i]);}	
 			}
-			text += Double.toString(coeff[i]);
-			if(expo[i] != 0) {text += "x" + Integer.toString(expo[i]);}
 		}
 		
 		File output = new File(fileName);
@@ -156,6 +170,7 @@ public class Polynomial {
 		FileWriter filewrite;
 		try {
 			filewrite = new FileWriter(fileName);
+			if(text.equals("")) {text = "0";}
 			filewrite.write(text);
 			filewrite.close();
 		} catch (IOException e) {
