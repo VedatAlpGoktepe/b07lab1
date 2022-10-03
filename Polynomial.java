@@ -29,7 +29,7 @@ public class Polynomial {
 			whole = file.nextLine();
 		} catch (FileNotFoundException e) {}
 		
-		int size = 0;
+		int size = 1;
 		for(int i = 0; i < whole.length(); i++) {
 			if(whole.charAt(i) == '-' || whole.charAt(i) == '+') {
 				size++;
@@ -56,14 +56,23 @@ public class Polynomial {
 					coeff[pos] = Double.parseDouble(number);
 					expo[pos] = 0;
 				}
-				number = "";
+				if(whole.charAt(i) == '-') {number = "-";}
+				else {number = "";}
 				pos++;
 			}
 			else {
 				number += whole.charAt(i);
 			}
 		}
-		
+		if(atExpo) {
+			expo[pos] = Integer.parseInt(number);
+		}
+		else {
+			coeff[pos] = Double.parseDouble(number);
+			expo[pos] = 0;
+		}
+		this.coeff = coeff.clone();
+		this.expo = expo.clone();
 	}
 	
 	public Polynomial add(Polynomial p2) {
