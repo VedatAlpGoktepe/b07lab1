@@ -27,24 +27,24 @@ public class Driver {
 		Polynomial m = p3.multiply(p4);
 		System.out.println("m(2): " + m.evaluate(2));
 		System.out.println("m(3): " + m.evaluate(3));
-		m.saveTofIle("Hello.txt");
+		m.saveToFile("Hello.txt");
 		
 		double[] c5 = {-1,-1,-1};
 		int[] e5 = {2,3,4};
 		Polynomial p5 = new Polynomial(c5, e5);
 		Polynomial m2 = m.add(p5);
-		m2.saveTofIle("Hello2.txt");
+		m2.saveToFile("Hello2.txt");
 		
 		double[] c6 = {0, 0, 1};
 		int[] e6 = {1,2,3};
 		Polynomial p6 = new Polynomial(c6, e6);
-		p6.saveTofIle("Hello3.txt");
+		p6.saveToFile("Hello3.txt");
 		
 		File poly = new File("Hi.txt");
 		Polynomial p7 = new Polynomial(poly);
 		System.out.println("p7(2)" + p7.evaluate(2));
 		System.out.println("p7(3)" + p7.evaluate(3));
-		p7.saveTofIle("Hi_out.txt");
+		p7.saveToFile("Hi_out.txt");
 		
 		double[] c8 = {6,-1,4};
 		int[] e8 = {2,3,1};

@@ -51,6 +51,7 @@ public class Polynomial {
 			else if(whole.charAt(i) == '+' || whole.charAt(i) == '-') {
 				if(atExpo) {
 					expo[pos] = Integer.parseInt(number);
+					atExpo = false;
 				}
 				else {
 					coeff[pos] = Double.parseDouble(number);
@@ -153,7 +154,7 @@ public class Polynomial {
 		
 		return np1;
 	}
-	public void saveTofIle(String fileName) {
+	public void saveToFile(String fileName) {
 	
 		String text = "";
 		boolean first = false;
