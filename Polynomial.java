@@ -28,7 +28,7 @@ public class Polynomial {
 			file = new Scanner(text);
 			whole = file.nextLine();
 		} catch (FileNotFoundException e) {}
-		
+
 		int size = 1;
 		for(int i = 0; i < whole.length(); i++) {
 			if(whole.charAt(i) == '-' || whole.charAt(i) == '+') {
@@ -49,17 +49,21 @@ public class Polynomial {
 				atExpo = true;
 			}
 			else if(whole.charAt(i) == '+' || whole.charAt(i) == '-') {
-				if(atExpo) {
-					expo[pos] = Integer.parseInt(number);
-					atExpo = false;
+				if(!number.equals("")) {
+					if(atExpo) {
+						expo[pos] = Integer.parseInt(number);
+						atExpo = false;
+					}
+					else {
+						coeff[pos] = Double.parseDouble(number);
+						expo[pos] = 0;
+					}
+					
+					pos++;
 				}
-				else {
-					coeff[pos] = Double.parseDouble(number);
-					expo[pos] = 0;
-				}
+
 				if(whole.charAt(i) == '-') {number = "-";}
 				else {number = "";}
-				pos++;
 			}
 			else {
 				number += whole.charAt(i);
